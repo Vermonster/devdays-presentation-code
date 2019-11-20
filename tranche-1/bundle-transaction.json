@@ -1,190 +1,62 @@
 {
-	"type": "transaction",
-	"resourceType": "Bundle",
-	"entry": [
-		{
-			"request": {
-				"method": "POST",
-				"url": "Patient"
-			},
-			"fullUrl": "Patient/mainpatient",
-			"resource": {
-				"address": [
-					{
-						"type": "both",
-						"postalCode": "13999",
-						"state": "Vic",
-						"text": "534 Erewhon St PeasantVille, Rainbow, Vic  3999",
-						"city": "PleasantVille",
-						"line": [
-							"534 Erewhon St"
-						]
-					}
-				],
-				"telecom": [
-					{
-						"rank": 1,
-						"value": "(718) 5555 6473",
-						"system": "phone",
-						"use": "work"
-					},
-					{
-						"rank": 2,
-						"value": "(718) 3410 5613",
-						"system": "phone",
-						"use": "mobile"
-					}
-				],
-				"birthDate": "1974-12-25",
-				"identifier": [
-					{
-						"type": {
-							"coding": [
-								{
-									"system": "http://hl7.org/fhir/v2/0203",
-									"code": "MR"
-								}
-							]
-						},
-						"assigner": {
-							"display": "FACILITY NAME"
-						},
-						"use": "usual",
-						"value": "12345",
-						"system": "urn:oid:1.2.36.146.595.217.0.1"
-					}
-				],
-				"gender": "male",
-				"name": [
-					{
-						"family": "Chalmers",
-						"given": [
-							"Peter",
-							"James"
-						],
-						"use": "official"
-					}
-				],
-				"active": true,
-				"id": "mainpatient",
-				"managingOrganization": {
-					"display": "FACILITY NAME"
-				},
-				"resourceType": "Patient"
-			}
-		},
-		{
-			"request": {
-				"method": "POST",
-				"url": "Practitioner"
-			},
-			"fullUrl": "Practitioner/practitioner",
-			"resource": {
-				"id": "practitioner",
-				"name": [
-					{
-						"text": "RAMASITA DOCTOR",
-						"given": [
-							"RAMASITA"
-						],
-						"family": "DOCTOR"
-					}
-				],
-				"resourceType": "Practitioner",
-				"identifier": [
-					{
-						"assigner": {
-							"display": "NPI"
-						},
-						"value": "1992812550"
-					}
-				]
-			}
-		},
-		{
-			"request": {
-				"method": "POST",
-				"url": "PractitionerRole"
-			},
-			"resource": {
-				"code": [
-					{
-						"coding": [
-							{
-								"code": "doctor",
-								"display": "Attending"
-							}
-						]
-					}
-				],
-				"practitioner": {
-					"reference": "Practitioner/practitioner"
-				},
-				"resourceType": "PractitionerRole"
-			}
-		},
-		{
-			"request": {
-				"method": "POST",
-				"url": "Condition"
-			},
-			"fullUrl": "Condition/condition-1",
-			"resource": {
-				"clinicalStatus": {
-					"coding": {
-						"code": [
-							"active"
-						]
-					}
-				},
-				"id": "condition-1",
-				"subject": {
-					"reference": "Patient/mainpatient"
-				},
-				"resourceType": "Condition",
-				"code": {
-					"coding": [
-						{
-							"system": "ICD-10",
-							"code": "E11.9",
-							"display": "Type 2 diabetes mellitus without complications"
-						}
-					],
-					"text": "F"
-				}
-			}
-		},
-		{
-			"request": {
-				"method": "POST",
-				"url": "Condition"
-			},
-			"fullUrl": "Condition/condition-2",
-			"resource": {
-				"clinicalStatus": {
-					"coding": {
-						"code": [
-							"active"
-						]
-					}
-				},
-				"id": "condition-2",
-				"subject": {
-					"reference": "Patient/mainpatient"
-				},
-				"resourceType": "Condition",
-				"code": {
-					"coding": [
-						{
-							"system": "ICD-10",
-							"code": "E55.9",
-							"display": "Vitamin D deficiency, unspecified"
-						}
-					],
-					"text": "F"
-				}
-			}
-		}
-	]
+  "type": "transaction",
+  "resourceType": "Bundle",
+  "entry": [
+    {
+      "request": { "method": "POST", "url": "Patient" },
+      "fullUrl": "Patient/mainpatient",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "mainpatient",
+        "active": true,
+        "name": [
+          {
+            "family": "Chalmers",
+            "given": [ "Peter", "James" ],
+            "use": "official"
+          }
+        ]
+      }
+    },
+    {
+      "request": { "method": "POST", "url": "Condition" },
+      "fullUrl": "Condition/condition-1",
+      "resource": {
+        "clinicalStatus": { "coding": { "code": [ "active" ] } },
+        "id": "condition-1",
+        "subject": { "reference": "Patient/mainpatient" },
+        "resourceType": "Condition",
+        "code": {
+          "coding": [
+            {
+              "system": "ICD-10",
+              "code": "E11.9",
+              "display": "Type 2 diabetes mellitus without complications"
+            }
+          ],
+          "text": "F"
+        }
+      }
+    },
+    {
+      "request": { "method": "POST", "url": "Condition" },
+      "fullUrl": "Condition/condition-2",
+      "resource": {
+        "clinicalStatus": { "coding": { "code": [ "active" ] } },
+        "id": "condition-2",
+        "subject": { "reference": "Patient/mainpatient" },
+        "resourceType": "Condition",
+        "code": {
+          "coding": [
+            {
+              "system": "ICD-10",
+              "code": "E55.9",
+              "display": "Vitamin D deficiency, unspecified"
+            }
+          ],
+          "text": "F"
+        }
+      }
+    }
+  ]
 }
-
