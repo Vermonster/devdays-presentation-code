@@ -2,24 +2,17 @@ const fetch = require('node-fetch');
 const stream = require('stream');
 const ndjson = require('ndjson');
 
-// Wrapper around Node streams...
+// A wrapper around Node streams...
 const through = require('through2');
 
 // Treat http requests as a streaming transport
 const hyperquest = require('hyperquest');
 
-const { dump } = require('../lib/utils');
 
-const { pipeline } = stream;
-
-// ---
-
-function sleep (ms) {
-  return new Promise(resolve => {
-    setTimeout(resolve, ms);
-  });
-}
-
+// ============================================================================
+// Functions to check the status of the trigger and wait until for
+// dowload link(s)
+//
 async function waitForFiles (url) {
   await sleep(1000);
 
@@ -32,16 +25,25 @@ async function waitForFiles (url) {
       }
       return res.json();
     })
-    .catch(err => console.log(`error: ${dump(err)}`));
+    .catch(err => console.log(err));
 }
 
-// ---
-
-function write (row, enc, next) {
-  next(null, String(row.id) + '\n');
+function sleep (ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms);
+  });
 }
+
+// ============================================================================
+// Create a stream pipeline that streams:
+// * The HTTP request to download the file
+// * ndjson parsing
+// * calls a writer function
+// * stream to stdout
 
 function streamDownload (files = []) {
+  const { pipeline } = stream;
+
   files.forEach(file => {
     pipeline(
       hyperquest(file, { headers: { accept: 'application/fhir+json' } }),
@@ -51,6 +53,14 @@ function streamDownload (files = []) {
     );
   });
 }
+
+function write (row, enc, next) {
+  next(null, String(row.id) + '\n');
+}
+
+
+// ============================================================================
+// Finally, kick the whole thing off:
 
 const triggerLink = 'https://bulk-data.smarthealthit.org/eyJlcnIiOiIiLCJwYWdlIjoxMDAwMCwiZHVyIjoxMCwidGx0IjoxNSwibSI6MTAwLCJzdHUiOjN9/fhir/Group/1/$export?_type=Condition';
 
@@ -67,4 +77,4 @@ fetch(triggerLink, { headers })
     }
   })
   .then(files => streamDownload(files))
-  .catch(err => console.log(`error: ${dump(err)}`));
+  .catch(err => conole.log(err));
