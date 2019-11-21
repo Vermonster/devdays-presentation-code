@@ -8,11 +8,13 @@ client
   .read({ resourceType: 'Patient', id })
   .then((data) => {
     console.log(dump(data.identifier));
-    console.log('---');
+    console.log("\n---\n");
 
     let path = "Patient.identifier.where( system = 'urn:oid:2.16.840.1.113883.4.3.25' ).value.first()";
     console.log(path);
     console.log(fhirpath.evaluate(data, path));
+
+    console.log("\n---\n");
 
     path = "Patient.identifier.where( system = 'urn:oid:2.16.840.1.113883.4.3.25' ).select('Driver License: ' + value)";
     console.log(path);
